@@ -11,11 +11,11 @@ Note: You need Maven installed.
 Add BrowserStack Username and Automate-key to `serenity.properties`
 
 ## Run Tests
-1. To run tests on BrowserStack, you simply need to point the hub URL to our Selenium hub 'http://hub.browserstack.com/wd/hub' along with your Username and Automate-key. In Serenity, you can do this using `browserstack.url` parameter along with other browser and OS paramters
+1. To run tests on BrowserStack, you simply need to point the hub URL to our Selenium hub 'http://hub.browserstack.com/wd/hub' along with your Username and Automate-key. In Serenity, you can do this using `browserstack.url` parameter as follows:
   
-  `mvn clean verify -Dbrowserstack.url=http://<username>:<automate-key>@hub.browserstack.com:80/wd/hub -Dbrowserstack.browser=ie`
+  `mvn clean verify -Dbrowserstack.url=http://<username>:<automate-key>@hub.browserstack.com:80/wd/hub`
 
-3. Instead of mentioning all parameters in the command line, you can give them in a `serenity.properties` file and then simply run your tests using the command:
+3. Instead of mentioning the hub url and other browser and OS parameters in command line, you can give them in a `serenity.properties` file and then simply run your tests using the command:
 
   `mvn clean verify`
   
@@ -24,6 +24,6 @@ Add BrowserStack Username and Automate-key to `serenity.properties`
 - Serenity Docs - http://thucydides.info/docs/serenity-staging/
 - BrowserStack documentation for Automate - https://www.browserstack.com/automate/java
 
-This sample Serenity-Cucumber example has been taken from Serenity Demo projects [here](https://github.com/serenity-bdd/serenity-demos/tree/master/cucumber-webtests)  
+This sample Serenity-Cucumber example has been taken from Serenity Demo projects [here](https://github.com/serenity-bdd/serenity-demos/tree/master/cucumber-webtests).  
 
 Happy Testing!  
