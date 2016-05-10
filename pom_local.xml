@@ -123,7 +123,7 @@
                 <version>2.18</version>
                 <configuration>
                     <includes>
-                        <include>**/cucumber/SearchByKeyword.java</include>
+                        <include>**/cucumber/SearchByKeywordLocal.java</include>
                     </includes>
                     <reuseForks>true</reuseForks>
                     <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
