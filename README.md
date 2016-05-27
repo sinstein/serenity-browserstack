@@ -3,7 +3,7 @@ Run a sample Serenity, Cucumber and Maven test on BrowserStack
 
 ##Setup
 
-Clone this repo: `git clone https://github.com/UmangSardesai/serenity-browserstack.git`
+Clone this repo: `https://github.com/browserstack/serenity-browserstack`
 
 Note: You need Maven installed.
 
