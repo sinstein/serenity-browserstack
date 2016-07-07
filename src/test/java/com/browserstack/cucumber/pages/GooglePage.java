@@ -5,48 +5,32 @@ import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.DefaultUrl;
 import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DefaultUrl("https://www.google.com")
+@DefaultUrl("https://www.google.com/ncr")
 public class GooglePage extends PageObject {
 
-  @FindBy(name="btnG")
-  WebElementFacade searchButton;
+    @FindBy(name="q")
+    WebElementFacade search;
 
-  private final static String SHOP_SUGGESTION = "//div[@class='as-suggestion' and contains(.,'%s')]";
+    @FindBy(name="btnG")
+    WebElementFacade searchButton;
 
-  public void enterSearchTerms(String keyword) {
-    $("//*[@id=\"lst-ib\"]").type(keyword);
-    withTimeoutOf(10, TimeUnit.SECONDS).waitForPresenceOf(By.name("btnG"));
-    search();
-    waitForKeywordToBeUpdatedTo(keyword);
-  }
+    public void searchForString(String searchString) {
+        search.sendKeys(searchString, Keys.ENTER);
+    }
 
-  private void waitForKeywordToBeUpdatedTo(String keyword) {
-    waitForCondition()
-      .withTimeout(5, TimeUnit.SECONDS)
-      .pollingEvery(250,TimeUnit.MILLISECONDS)
-      .until(keywordFieldIsUpdatedTo(keyword));
-  }
+    public void submitForm() throws Exception {
+        searchButton.click();
+        Thread.sleep(5000);
+    }
 
-  private Function<? super WebDriver, Boolean> keywordFieldIsUpdatedTo(String keyword) {
-    return webDriver -> $("//*[@id=\"lst-ib\"]").getValue().equalsIgnoreCase(keyword);
-  }
-
-  public void search() {
-    searchButton.click();
-  }
-
-  public void searchForString(String searchString) {
-    enterSearchTerms(searchString);
-  }
-
-  public void titleShouldMatch(String matchTitle) {
-    assertThat(this.getTitle()).containsIgnoringCase(matchTitle);
-  }
+    public void titleShouldMatch(String matchTitle) {
+        assertThat(this.getTitle()).containsIgnoringCase(matchTitle);
+    }
 }

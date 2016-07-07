@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.serenity-bdd.demos</groupId>
-    <artifactId>cucumber-webtests</artifactId>
+    <groupId>com.browserstack</groupId>
+    <artifactId>serenity-browserstack</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Sample Serenity Cucumber project</name>
+    <name>Serenity BrowserStack Integration</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,7 +18,6 @@
         <browserstack.local.version>0.1.0</browserstack.local.version>
     </properties>
 
-    <!-- Define the Bintray repos for convenience -->
     <repositories>
         <repository>
             <id>serenity</id>
@@ -90,7 +89,6 @@
     </dependencies>
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -109,7 +107,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -119,11 +116,20 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.18</version>
                 <configuration>
                     <includes>
-                        <include>**/cucumber/SearchByKeyword.java</include>
+                        <include>com/browserstack/cucumber/SingleTest.java</include>
                     </includes>
                     <reuseForks>true</reuseForks>
                     <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
@@ -136,15 +142,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>net.serenity-bdd.maven.plugins</groupId>
@@ -169,4 +166,76 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>single</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.18</version>
+                        <configuration>
+                            <includes>
+                                <include>com/browserstack/cucumber/SingleTest.java</include>
+                            </includes>
+                            <reuseForks>true</reuseForks>
+                            <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                            <systemPropertyVariables>
+                                <environment>single</environment>
+                                <taskID>MY_TEST_SCHEMA_${surefire.forkNumber}</taskID>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>local</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.18</version>
+                        <configuration>
+                            <includes>
+                                <include>com/browserstack/cucumber/LocalTest.java</include>
+                            </includes>
+                            <reuseForks>true</reuseForks>
+                            <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                            <systemPropertyVariables>
+                                <environment>local</environment>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>parallel</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.18</version>
+                        <configuration>
+                            <includes>
+                                <include>com/browserstack/cucumber/Parallel*.java</include>
+                            </includes>
+                            <parallel>classes</parallel>
+                            <threadCount>4</threadCount>
+                            <forkCount>4</forkCount>
+                            <reuseForks>true</reuseForks>
+                            <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                            <systemPropertyVariables>
+                                <environment>parallel_${surefire.forkNumber}</environment>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
