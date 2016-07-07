@@ -18,7 +18,6 @@ public class BrowserStackSerenityDriver implements DriverSource {
 
     public WebDriver newDriver() {
         EnvironmentVariables environmentVariables = SystemEnvironmentVariables.createEnvironmentVariables();
-        System.out.println(environmentVariables.getKeys());
 
         String username = System.getenv("BROWSERSTACK_USERNAME");
         if(username == null) {
