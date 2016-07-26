@@ -10,5 +10,11 @@ before_install:
 
 after_failure: cat /home/travis/build/browserstack/browserstack-local-java/target/surefire-reports/*
 
+addons:
+  browserstack:
+    username: "sauravkothari2"
+    access_key: "XVBzv9SHzyxayo1Csxbs"
+    forcelocal: true
+
 scripts:
   - mvn test -P single && mvn test -P local && mvn test -P parallel
